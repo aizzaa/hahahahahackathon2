@@ -33,7 +33,7 @@ class RegistrationSerializer(serializers.Serializer):
         return user
 
 
-class ActivationSerilizer(serializers.Serializer):
+class ActivationSerializer(serializers.Serializer):
     email = serializers.CharField(required=True)
     code = serializers.CharField(required=True)
 
@@ -134,3 +134,4 @@ class ForgotPasswordCompleteSerializer(serializers.Serializer):
         user.activation_code = ''
         user.save()
 
+    #serializer
