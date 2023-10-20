@@ -10,5 +10,5 @@ class Hotels(models.Model):
     price = models.PositiveIntegerField(max_length=10, verbose_name='Цена/чел.')
     existence = models.BooleanField(default=True, verbose_name='Наличие свободных мест')
     booked = models.BooleanField(default=True, verbose_name='Бронирование')
-    available_rooms = 
+   # available_rooms = 
 
