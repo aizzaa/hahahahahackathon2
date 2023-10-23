@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import logging
 from pathlib import Path
 from decouple import config
 
@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-1wky5)u-g6l$up#c0r%5a3h-w*2lfe-32&^4)yscdi0%*9&^n2
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# AUTH_USER_MODEL = 'account.User'\
+AUTH_USER_MODEL = 'account.User'\
 
 
 # Application definition
@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # apps
+    'account',
+    'hotels',
+    'review',
 
 ]
 
@@ -55,6 +58,37 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'main_format': {
+            'format': '{asctime} - {levelname} - {module} - {filename} - {message}',
+            'style':  '{',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'main_format'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'formatter': 'main_format',
+            'filename': 'info.log',
+        },
+    },
+
+    'loggers': {
+        'main': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    }
+}
 
 ROOT_URLCONF = 'hackathon_2.urls'
 

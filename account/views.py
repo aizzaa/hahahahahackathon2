@@ -13,13 +13,13 @@ class RegistrationView(APIView):
         serializer = RegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response('Аккаунт успешно создан', status=201)
+        return Response('Аккаунт успешно создан. На вашу почту был отправлен код активации.', status=201)
 
 
 class ActivationView(APIView):
     def post(self, request):
         data = request.data
-        serializer = ActivationSerilizer(data=data)
+        serializer = ActivationSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.activate()
         return Response('Аккаунт успешно активирован!', status=200)

@@ -2,8 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from .utils import send_code
 from django.core.mail import send_mail
+from .models import User
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class RegistrationSerializer(serializers.Serializer):
@@ -27,7 +28,7 @@ class RegistrationSerializer(serializers.Serializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create_user(username= , **validated_data)
+        user = User.objects.create_user(**validated_data)
         user.create_activation_code()
         send_code(user.email, user.activation_code)
         return user
