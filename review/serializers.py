@@ -1,20 +1,24 @@
 from rest_framework.serializers import ModelSerializer, ReadOnlyField, ValidationError
 from .models import *
+from rest_framework import serializers
 
 
 class CommentsSerializer(ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.name')
+    hotels = serializers.ReadOnlyField(source='hotels.title')
+
     class Meta:
         model = Comment
-        fields = 'all'
+        fields = '__all__'
 
     def create(self, validated_data):
         user = self.context.get('request').user
-        comment = self.Meta.model.objects.create(author=user, **validated_data)
-        return comment
+        comments = self.Meta.model.objects.create(author=user, **validated_data)
+        return comments
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['commented'] = CommentsSerializer(instance.comments.all(), many=True).data
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['commented'] = CommentsSerializer(instance.comments.all(), many=True).data
 
 
 class RatingSerializer(ModelSerializer):
@@ -22,10 +26,9 @@ class RatingSerializer(ModelSerializer):
 
     class Meta:
         model = Rating
-        fields = 'all'
+        fields = '__all__'
 
-    def validate_rating(self,
-                        rating):  # удалить у Аизы так как это кажется не нужно т.к мы импортировали валидаторы в модельке
+    def validate_rating(self, rating):  # удалить у Аизы так как это кажется не нужно т.к мы импортировали валидаторы в модельке
         if rating > 5:
             raise ValidationError(
                 'Рейтинг не должен быть больше 5'
@@ -41,7 +44,7 @@ class RatingSerializer(ModelSerializer):
 class LikesSerializer(ModelSerializer):
     class Meta:
         model = Likes
-        fields = 'all'
+        fields = '__all__'
 
     def create(self, validated_data):
         user = self.context.get('request').user

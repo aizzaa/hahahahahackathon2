@@ -15,6 +15,12 @@ class Comment(models.Model):
         on_delete=models.CASCADE
     )
 
+    hotel_comment = models.ForeignKey(
+        Hotels,
+        related_name='comments',
+        on_delete=models.CASCADE
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -36,40 +42,42 @@ class Rating(models.Model):
         on_delete=models.CASCADE,
     )
 
+
 class Likes(models.Model):
     customer = models.ForeignKey(
-            User, related_name='likes',
-            on_delete=models.CASCADE,
-            verbose_name='Поставил лайк',
-            null=True,
+        User, related_name='likes',
+        on_delete=models.CASCADE,
+        verbose_name='Поставил лайк',
+        null=True,
 
-        )
+    )
 
     liked_hotel = models.ForeignKey(
-            Hotels, related_name='likes',
-            on_delete=models.CASCADE
-        )
+        Hotels, related_name='likes',
+        on_delete=models.CASCADE
+    )
 
     like = models.BooleanField(
-            default=False
-        )
+        default=False
+    )
     liked_at = models.DateTimeField(
-            auto_now_add=True
-        )
+        auto_now_add=True
+    )
+
 
 class Favorite(models.Model):  # добавление в избранные отели
 
     customer = models.ForeignKey(
-            User, related_name='favorite',
-            on_delete=models.CASCADE,
-            null=True
-        )
+        User, related_name='favorite',
+        on_delete=models.CASCADE,
+        null=True
+    )
 
     favorite_hotel = models.ForeignKey(
-            Hotels, related_name='favorite',
-            on_delete=models.CASCADE
-        )
+        Hotels, related_name='favorite',
+        on_delete=models.CASCADE
+    )
 
     created_at = models.DateField(
-            auto_now_add=True
-        )
+        auto_now_add=True
+    )

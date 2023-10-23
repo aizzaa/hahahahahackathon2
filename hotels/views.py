@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
-from .models import Hotels, Category
+from .models import Hotels, Category, Rooms
 from rest_framework.response import Response
-from .serializers import HotelSerializer, CategorySerializer
+from .serializers import HotelSerializer, CategorySerializer, RoomSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 import logging
 logger = logging.getLogger('main')
@@ -38,6 +38,24 @@ class CategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAdminUser]
+
+
+class RoomView(generics.ListAPIView):
+    queryset = Rooms.objects.all()
+    serializer_class = RoomSerializer
+    permission_classes = [AllowAny]
+
+
+class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Rooms.objects.all()
+    serializer_class = RoomSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            self.permission_classes = [AllowAny]
+        elif self.request.method == ['PUT', 'PATCH', 'DELETE']:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
 
 
 # Category

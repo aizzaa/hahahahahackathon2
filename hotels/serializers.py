@@ -1,11 +1,17 @@
 from rest_framework import serializers
 from .models import *
+from review.serializers import CommentsSerializer
 
 
 class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotels
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['commented'] = CommentsSerializer(instance.comments.all(), many=True).data
+        representation['hotel']=HotelSerializer(instance.hotels.title, many=True).data
 
 
 class CategorySerializer(serializers.Serializer):
@@ -22,3 +28,7 @@ class CategorySerializer(serializers.Serializer):
         return instance
 
 
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rooms
+        fields = '__all__'

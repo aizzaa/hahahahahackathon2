@@ -22,6 +22,6 @@ class RatingViewSet(ModelViewSet):
         return super().get_permissions()
 
 
-class LikesDetailView(generics.RetrieveUpdateDestroyAPIView):
+class LikesViewSet(ModelViewSet): #попробовать написать через apiview
     queryset = Likes.objects.all
     serializer_class = LikesSerializer
